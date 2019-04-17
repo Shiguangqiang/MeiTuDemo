@@ -4,6 +4,9 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -14,6 +17,8 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.opera.meitu.adapter.RvAdapter;
+import com.opera.meitu.bean.InfoBean;
 import com.opera.meitu.utils.GlideImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -21,6 +26,7 @@ import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -35,6 +41,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<String> testData;
     //数据适配器
     private ArrayAdapter<String> testDataAdapter;
+    //recycleview
+    private RecyclerView rv_list;
+    private RvAdapter mRvAdapter;
+
+    //制造假数据
+    private List<InfoBean> mInfoBeanList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +71,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         images.add("http://img.zcool.cn/community/01fd2756e142716ac72531cbf8bbbf.jpg");
         images.add("http://img.zcool.cn/community/0114a856640b6d32f87545731c076a.jpg");
 
+
+        InfoBean infoBean = new InfoBean();
+        for (int i = 0; i < 4; i++) {
+            infoBean.setIv_url(images.get(i));
+            infoBean.setTv_info("测试" + i + "=");
+            mInfoBeanList.add(infoBean);
+        }
+
+
     }
 
     private void initview() {
         mMenu = findViewById(R.id.ll_menu);
         mTop = findViewById(R.id.top_ll);
         mBanner = findViewById(R.id.banner);
+        rv_list = findViewById(R.id.rv_list);
+
+        mRvAdapter = new RvAdapter(this, mInfoBeanList);
+        rv_list.setAdapter(mRvAdapter);
+        rv_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     }
 
     private void initBanner() {
