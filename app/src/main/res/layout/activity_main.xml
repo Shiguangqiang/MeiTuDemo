@@ -70,7 +70,9 @@
         android:text="精选频道"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="212dp"
-         />
+
+
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_list"
