@@ -75,16 +75,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         images.add("http://img.zcool.cn/community/0114a856640b6d32f87545731c076a.jpg");
 
         mInfoBeanList = new ArrayList<>();
-        infoBean = new InfoBean();
+
 
         for (int i = 0; i < 6; i++) {
+            infoBean = new InfoBean();
             infoBean.setIv_url(images.get(i));
             infoBean.setTv_info("测试" + i + "=");
             mInfoBeanList.add(infoBean);
             Log.e("mInfoBeanList", mInfoBeanList.toString());
         }
-
-//        Log.e("mInfoBeanList", mInfoBeanList.toString());
     }
 
     private void initview() {
@@ -92,9 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTop = findViewById(R.id.top_ll);
         mBanner = findViewById(R.id.banner);
         rv_list = findViewById(R.id.rv_list);
-
-
-
 
 
         mRvAdapter = new RvAdapter(this, mInfoBeanList);
