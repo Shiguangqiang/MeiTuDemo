@@ -12,8 +12,10 @@
         android:layout_height="wrap_content"
         android:focusableInTouchMode="true"
         android:orientation="horizontal"
-        android:weightSum="10"
-        >
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parentl"
+        android:gravity="center_vertical"
+        android:weightSum="10">
 
 
         <SearchView
@@ -68,6 +70,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="精选频道"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/banner"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="212dp"
 
