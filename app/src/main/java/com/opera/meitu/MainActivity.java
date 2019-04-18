@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -26,10 +27,13 @@ import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+
+    InfoBean infoBean;
     private Banner mBanner;
     private ArrayList<String> images;
     private LinearLayout mMenu, mTop;
@@ -44,9 +48,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //recycleview
     private RecyclerView rv_list;
     private RvAdapter mRvAdapter;
-
     //制造假数据
-    private List<InfoBean> mInfoBeanList = new ArrayList<>();
+    private List<InfoBean> mInfoBeanList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,15 +74,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         images.add("http://img.zcool.cn/community/01fd2756e142716ac72531cbf8bbbf.jpg");
         images.add("http://img.zcool.cn/community/0114a856640b6d32f87545731c076a.jpg");
 
+        mInfoBeanList = new ArrayList<>();
+        infoBean = new InfoBean();
 
-        InfoBean infoBean = new InfoBean();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 6; i++) {
             infoBean.setIv_url(images.get(i));
             infoBean.setTv_info("测试" + i + "=");
             mInfoBeanList.add(infoBean);
+            Log.e("mInfoBeanList", mInfoBeanList.toString());
         }
 
-
+//        Log.e("mInfoBeanList", mInfoBeanList.toString());
     }
 
     private void initview() {
@@ -87,6 +92,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTop = findViewById(R.id.top_ll);
         mBanner = findViewById(R.id.banner);
         rv_list = findViewById(R.id.rv_list);
+
+
+
+
 
         mRvAdapter = new RvAdapter(this, mInfoBeanList);
         rv_list.setAdapter(mRvAdapter);
