@@ -1,4 +1,4 @@
-package com.opera.meitu;
+package com.opera.meitu.mvp.main;
 
 import android.graphics.Rect;
 import android.os.Build;
@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,9 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.opera.meitu.R;
 import com.opera.meitu.adapter.RvAdapter;
+import com.opera.meitu.base.MvpBaseActivity;
 import com.opera.meitu.bean.InfoBean;
 import com.opera.meitu.utils.GlideImageLoader;
 import com.youth.banner.Banner;
@@ -27,11 +28,10 @@ import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
+//public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends MvpBaseActivity<MainPresenter> implements MainContract.View, View.OnClickListener {
 
     InfoBean infoBean;
     private Banner mBanner;
@@ -52,19 +52,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private List<InfoBean> mInfoBeanList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //初始化数据
-        initData();
-        //初始化视图
-        initview();
-        initBanner();
-        initListener();
+    protected MainPresenter initPresenter() {
+        return new MainPresenter(this, this);
     }
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
 
-    private void initData() {
+    @Override
+    public boolean showToolBar() {
+        return false;
+    }
+
+    @Override
+    protected void initView() {
+        mMenu = findViewById(R.id.ll_menu);
+        mTop = findViewById(R.id.top_ll);
+        mBanner = findViewById(R.id.banner);
+        rv_list = findViewById(R.id.rv_list);
+        initBanner();
+
+    }
+
+    @Override
+    protected void initData() {
         //设置图片资源:url或本地资源
         images = new ArrayList<>();
         images.add("http://img.zcool.cn/community/0166c756e1427432f875520f7cc838.jpg");
@@ -74,9 +87,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         images.add("http://img.zcool.cn/community/01fd2756e142716ac72531cbf8bbbf.jpg");
         images.add("http://img.zcool.cn/community/0114a856640b6d32f87545731c076a.jpg");
 
+        mBanner.setImages(images).setOnBannerListener(new OnBannerListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Toast.makeText(MainActivity.this, "当前点击第" + (position + 1) + "张图片", Toast.LENGTH_SHORT).show();
+            }
+        }).start();
+
+
         mInfoBeanList = new ArrayList<>();
-
-
         for (int i = 0; i < 6; i++) {
             infoBean = new InfoBean();
             infoBean.setIv_url(images.get(i));
@@ -84,18 +103,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mInfoBeanList.add(infoBean);
             Log.e("mInfoBeanList", mInfoBeanList.toString());
         }
-    }
-
-    private void initview() {
-        mMenu = findViewById(R.id.ll_menu);
-        mTop = findViewById(R.id.top_ll);
-        mBanner = findViewById(R.id.banner);
-        rv_list = findViewById(R.id.rv_list);
-
         mRvAdapter = new RvAdapter(this, mInfoBeanList);
         rv_list.setAdapter(mRvAdapter);
         rv_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
     }
+
+
+    @Override
+    protected void initToolBar() {
+    }
+
+    @Override
+    protected void initListeners() {
+        mMenu.setOnClickListener(this);
+    }
+
 
     private void initBanner() {
         //设置banner样式
@@ -112,18 +135,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBanner.setDelayTime(1500);
         //设置图片资源
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
-        mBanner.setImages(images).setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                Toast.makeText(MainActivity.this, "当前点击第" + (position + 1) + "张图片", Toast.LENGTH_SHORT).show();
-            }
-        })
-                .start();
     }
 
-    private void initListener() {
-        mMenu.setOnClickListener(this);
-    }
 
     @Override
     public void onClick(View v) {

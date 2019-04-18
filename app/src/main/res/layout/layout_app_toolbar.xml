@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.AppBarLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/appbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+
+    <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="48dip"
+            android:background="@color/color_white"
+            app:contentInsetStart="0dp"
+            app:layout_collapseMode="pin"
+            app:titleTextAppearance="@style/ToolBar.TitleText">
+
+        <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <ImageView
+                    android:id="@+id/tb_back_pressed"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerVertical="true"
+                    android:padding="15dp"
+                    android:src="@drawable/toolbar_back_pressed_selector"
+                    android:visibility="gone"
+                    android:contentDescription="@null"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                    style="@style/ToolBar.MainText"
+                    android:id="@+id/tb_main_title"
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="50dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                    style="@style/ToolBar.SubText"
+                    android:id="@+id/home_btn_upper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginEnd="5dp"
+                    android:minWidth="45dp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                    style="@style/ToolBar.Icon"
+                    android:id="@+id/tb_main_icon"
+                    android:visibility="gone"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_margin="15dp"
+                    android:contentDescription="@null"
+                    app:layout_constraintEnd_toStartOf="@id/home_btn_upper"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+            <ImageView
+                    style="@style/ToolBar.Icon"
+                    android:id="@+id/tb_sub_icon"
+                    android:visibility="gone"
+                    android:contentDescription="@null"
+                    app:layout_constraintEnd_toStartOf="@id/tb_main_icon"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <ImageView
+                    android:id="@+id/bottom_line"
+                    style="@style/divider_1px_line"
+                    android:contentDescription="@null"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+</android.support.design.widget.AppBarLayout>
+
