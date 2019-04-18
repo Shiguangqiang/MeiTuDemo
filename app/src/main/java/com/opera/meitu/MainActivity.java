@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBanner = findViewById(R.id.banner);
         rv_list = findViewById(R.id.rv_list);
 
-
         mRvAdapter = new RvAdapter(this, mInfoBeanList);
         rv_list.setAdapter(mRvAdapter);
         rv_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
