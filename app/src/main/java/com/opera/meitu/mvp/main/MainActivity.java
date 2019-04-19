@@ -12,11 +12,16 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.google.android.flexbox.FlexLine;
+import com.google.android.flexbox.FlexboxLayout;
 import com.opera.meitu.R;
 import com.opera.meitu.adapter.RvAdapter;
 import com.opera.meitu.base.MvpBaseActivity;
@@ -42,7 +47,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
     // popup窗口
     private PopupWindow typeSelectPopup;
     //模拟的假数据
-    private List<String> testData;
+    private List<String> testData, flagData;
     //数据适配器
     private ArrayAdapter<String> testDataAdapter;
     //recycleview
@@ -50,6 +55,8 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
     private RvAdapter mRvAdapter;
     //制造假数据
     private List<InfoBean> mInfoBeanList;
+    private FlexboxLayout mFlex_layout;
+    private ToggleButton mToggle_btn;
 
     @Override
     protected MainPresenter initPresenter() {
@@ -72,6 +79,8 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         mTop = findViewById(R.id.top_ll);
         mBanner = findViewById(R.id.banner);
         rv_list = findViewById(R.id.rv_list);
+        mFlex_layout = findViewById(R.id.flex_layout);
+        mToggle_btn = findViewById(R.id.toggle_btn);
         initBanner();
 
     }
@@ -107,6 +116,32 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         rv_list.setAdapter(mRvAdapter);
         rv_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
+        flagData = new ArrayList<>();
+        for (int i = 0; i < 30; i++) {
+            String str = "第" + i + "个标签";
+            flagData.add(str);
+        }
+
+        addChildView();
+        mFlex_layout.post(new Runnable() {
+            //获取到数据再做处理
+            @Override
+            public void run() {
+                //大于两行处理
+                if (mFlex_layout.getFlexLines().size() > 2) {
+                        //隐藏
+                        int numInTopthree = 0;
+                        for (int i = 0; i < 2; i++) {
+                            if (mFlex_layout.getFlexLines().size() > 2) {
+                                FlexLine flexLine = mFlex_layout.getFlexLines().get(i);
+                                numInTopthree += flexLine.getItemCount();
+                            }
+                        }
+                    mFlex_layout.removeViews(numInTopthree, mFlex_layout.getChildCount() - numInTopthree);
+
+                }
+            }
+        });
     }
 
 
@@ -117,6 +152,57 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
     @Override
     protected void initListeners() {
         mMenu.setOnClickListener(this);
+        mToggle_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                addChildView();
+                if (isChecked) {
+                    handleLines(mFlex_layout, false);
+                } else {
+                    handleLines(mFlex_layout, true);
+                }
+            }
+        });
+    }
+
+    private void addChildView() {
+        //        填充数据
+        if (flagData.size() > 0) {
+            mFlex_layout.removeAllViews();
+            for (int i = 0; i < flagData.size(); i++) {
+                View child = View.inflate(this, R.layout.tag_item, null);
+                TextView tv_info = child.findViewById(R.id.tv_info);
+                tv_info.setText(flagData.get(i));
+                mFlex_layout.addView(child);
+            }
+        }
+    }
+
+    private void handleLines(final FlexboxLayout flex_layout, final Boolean flag) {
+        flex_layout.post(new Runnable() {
+            //获取到数据再做处理
+            @Override
+            public void run() {
+                //大于两行处理
+                if (flex_layout.getFlexLines().size() > 2) {
+                    if (flag) {
+                        //隐藏
+                        int numInTopthree = 0;
+                        for (int i = 0; i < 2; i++) {
+                            if (mFlex_layout.getFlexLines().size() > 2) {
+                                FlexLine flexLine = mFlex_layout.getFlexLines().get(i);
+                                numInTopthree += flexLine.getItemCount();
+                            }
+                        }
+                        flex_layout.removeViews(numInTopthree, flex_layout.getChildCount() - numInTopthree);
+
+                    } else {
+                        //展示
+                    }
+                }
+            }
+        });
+
     }
 
 

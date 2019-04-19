@@ -49,6 +49,8 @@ dependencies {
     api 'com.squareup.retrofit2:converter-scalars:2.3.0'
     api 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     api 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    //   流式布局
+    api 'com.google.android:flexbox:1.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 repositories {
