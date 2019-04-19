@@ -90,6 +90,7 @@
         android:id="@+id/flex_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
         app:alignContent="flex_start"
         app:alignItems="center"
         app:flexDirection="row"
@@ -107,7 +108,6 @@
         android:gravity="center"
         android:textOff="展开"
         android:textOn="隐藏"
-        app:layout_constraintHorizontal_bias="0.909"
         app:layout_constraintLeft_toRightOf="@id/flex_layout"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_list" />
