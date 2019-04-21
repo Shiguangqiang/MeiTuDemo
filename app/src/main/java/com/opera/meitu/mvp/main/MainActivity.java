@@ -118,7 +118,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
 
         flagData = new ArrayList<>();
         for (int i = 0; i < 30; i++) {
-            String str = "第" + i + "个标签";
+            String str = "第" + i + "个";
             flagData.add(str);
         }
 
@@ -128,11 +128,11 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
             @Override
             public void run() {
                 //大于两行处理
-                if (mFlex_layout.getFlexLines().size() > 2) {
+                if (mFlex_layout.getFlexLines().size() > 1) {
                         //隐藏
                         int numInTopthree = 0;
-                        for (int i = 0; i < 2; i++) {
-                            if (mFlex_layout.getFlexLines().size() > 2) {
+                        for (int i = 0; i < 1; i++) {
+                            if (mFlex_layout.getFlexLines().size() > 1) {
                                 FlexLine flexLine = mFlex_layout.getFlexLines().get(i);
                                 numInTopthree += flexLine.getItemCount();
                             }
@@ -184,12 +184,12 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
             @Override
             public void run() {
                 //大于两行处理
-                if (flex_layout.getFlexLines().size() > 2) {
+                if (flex_layout.getFlexLines().size() >1) {
                     if (flag) {
                         //隐藏
                         int numInTopthree = 0;
-                        for (int i = 0; i < 2; i++) {
-                            if (mFlex_layout.getFlexLines().size() > 2) {
+                        for (int i = 0; i < 1; i++) {
+                            if (mFlex_layout.getFlexLines().size() > 1) {
                                 FlexLine flexLine = mFlex_layout.getFlexLines().get(i);
                                 numInTopthree += flexLine.getItemCount();
                             }

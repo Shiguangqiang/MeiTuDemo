@@ -102,12 +102,13 @@
 
     <ToggleButton
         android:id="@+id/toggle_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:checked="false"
         android:gravity="center"
-        android:textOff="展开"
-        android:textOn="隐藏"
+        android:background="@drawable/toggle_btn"
+        android:textOff=""
+        android:textOn=""
         app:layout_constraintLeft_toRightOf="@id/flex_layout"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_list" />
