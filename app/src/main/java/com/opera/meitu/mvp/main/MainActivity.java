@@ -1,5 +1,6 @@
 package com.opera.meitu.mvp.main;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -28,6 +30,7 @@ import com.opera.meitu.adapter.PicAdapter;
 import com.opera.meitu.adapter.RvAdapter;
 import com.opera.meitu.base.MvpBaseActivity;
 import com.opera.meitu.bean.InfoBean;
+import com.opera.meitu.mvp.imagewatcher.ImageWatcherActivity;
 import com.opera.meitu.utils.GlideImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -60,6 +63,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
     private List<InfoBean> mInfoBeanList;
     private FlexboxLayout mFlex_layout;
     private ToggleButton mToggle_btn;
+    private ImageView mIv_head;
 
     @Override
     protected MainPresenter initPresenter() {
@@ -85,6 +89,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         mFlex_layout = findViewById(R.id.flex_layout);
         mToggle_btn = findViewById(R.id.toggle_btn);
         rv_pic_list = findViewById(R.id.pic_rv);
+        mIv_head = findViewById(R.id.iv_head);
         initBanner();
 
     }
@@ -167,6 +172,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
     @Override
     protected void initListeners() {
         mMenu.setOnClickListener(this);
+        mIv_head.setOnClickListener(this);
         mToggle_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -178,19 +184,6 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
                 }
             }
         });
-    }
-
-    private void addChildView() {
-        //        填充数据
-        if (flagData.size() > 0) {
-            mFlex_layout.removeAllViews();
-            for (int i = 0; i < flagData.size(); i++) {
-                View child = View.inflate(this, R.layout.tag_item, null);
-                TextView tv_info = child.findViewById(R.id.tv_info);
-                tv_info.setText(flagData.get(i));
-                mFlex_layout.addView(child);
-            }
-        }
     }
 
     private void handleLines(final FlexboxLayout flex_layout, final Boolean flag) {
@@ -220,6 +213,18 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
 
     }
 
+    private void addChildView() {
+        //        填充数据
+        if (flagData.size() > 0) {
+            mFlex_layout.removeAllViews();
+            for (int i = 0; i < flagData.size(); i++) {
+                View child = View.inflate(this, R.layout.tag_item, null);
+                TextView tv_info = child.findViewById(R.id.tv_info);
+                tv_info.setText(flagData.get(i));
+                mFlex_layout.addView(child);
+            }
+        }
+    }
 
     private void initBanner() {
         //设置banner样式
@@ -257,6 +262,9 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
                         typeSelectPopup.showAsDropDown(mTop, 0, 0);
                     }
                 }
+                break;
+            case R.id.iv_head:
+                startActivity(new Intent(this, ImageWatcherActivity.class));
                 break;
             default:
                 break;

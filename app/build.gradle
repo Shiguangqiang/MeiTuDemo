@@ -52,7 +52,14 @@ dependencies {
     //   流式布局
     api 'com.google.android:flexbox:1.0.0'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.facebook.fresco:fresco:1.10.0'
+    implementation project(':imagewatcher')
 }
 repositories {
+    google()
+    jcenter()
     mavenCentral()
+    maven { url 'https://maven.google.com' }
+    maven { url "https://jitpack.io" }
+    flatDir { dirs 'libs' }
 }
