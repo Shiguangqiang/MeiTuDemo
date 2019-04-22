@@ -112,7 +112,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         for (int i = 0; i < 6; i++) {
             infoBean = new InfoBean();
             infoBean.setIv_url(images.get(i));
-            infoBean.setTv_info("测试" + i + "=");
+            infoBean.setTv_info("测试" + i);
             mInfoBeanList.add(infoBean);
             Log.e("mInfoBeanList", mInfoBeanList.toString());
         }
@@ -287,7 +287,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         typeSelectPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                // `  关闭popup窗口
+                // 关闭popup窗口
                 typeSelectPopup.dismiss();
             }
         });

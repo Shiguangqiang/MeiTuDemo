@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.opera.meitu.R;
 import com.opera.meitu.bean.InfoBean;
+
 import java.util.List;
 
 /**

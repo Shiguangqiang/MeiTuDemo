@@ -20,7 +20,7 @@ import java.util.List;
 public class PicAdapter extends RecyclerView.Adapter<PicAdapter.VH> {
 
     Context mContext;
-//    List<InfoBean> infoBeanList;
+    //    List<InfoBean> infoBeanList;
     private ArrayList<String> images;
 
     public PicAdapter(Context context, ArrayList<String> infoBeanList) {
