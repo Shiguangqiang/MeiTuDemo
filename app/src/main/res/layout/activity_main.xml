@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_sl"
@@ -110,8 +109,6 @@
                 app:layout_constraintTop_toBottomOf="@id/rv_list"></com.google.android.flexbox.FlexboxLayout>
 
 
-
-
             <ToggleButton
                 android:id="@+id/toggle_btn"
                 android:layout_width="30dp"
@@ -141,8 +138,8 @@
             android:id="@+id/pic_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
             android:gravity="center"
+            android:nestedScrollingEnabled="false"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/pic_tv"></android.support.v7.widget.RecyclerView>
 
