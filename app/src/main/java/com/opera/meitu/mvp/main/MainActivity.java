@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +24,7 @@ import android.widget.ToggleButton;
 import com.google.android.flexbox.FlexLine;
 import com.google.android.flexbox.FlexboxLayout;
 import com.opera.meitu.R;
+import com.opera.meitu.adapter.PicAdapter;
 import com.opera.meitu.adapter.RvAdapter;
 import com.opera.meitu.base.MvpBaseActivity;
 import com.opera.meitu.bean.InfoBean;
@@ -47,12 +49,13 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
     // popup窗口
     private PopupWindow typeSelectPopup;
     //模拟的假数据
-    private List<String> testData, flagData;
+    private List<String> testData, flagData, picData;
     //数据适配器
     private ArrayAdapter<String> testDataAdapter;
     //recycleview
-    private RecyclerView rv_list;
+    private RecyclerView rv_list, rv_pic_list;
     private RvAdapter mRvAdapter;
+    private PicAdapter mPicAdapter;
     //制造假数据
     private List<InfoBean> mInfoBeanList;
     private FlexboxLayout mFlex_layout;
@@ -81,6 +84,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         rv_list = findViewById(R.id.rv_list);
         mFlex_layout = findViewById(R.id.flex_layout);
         mToggle_btn = findViewById(R.id.toggle_btn);
+        rv_pic_list = findViewById(R.id.pic_rv);
         initBanner();
 
     }
@@ -112,6 +116,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
             mInfoBeanList.add(infoBean);
             Log.e("mInfoBeanList", mInfoBeanList.toString());
         }
+
         mRvAdapter = new RvAdapter(this, mInfoBeanList);
         rv_list.setAdapter(mRvAdapter);
         rv_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -129,19 +134,29 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
             public void run() {
                 //大于两行处理
                 if (mFlex_layout.getFlexLines().size() > 1) {
-                        //隐藏
-                        int numInTopthree = 0;
-                        for (int i = 0; i < 1; i++) {
-                            if (mFlex_layout.getFlexLines().size() > 1) {
-                                FlexLine flexLine = mFlex_layout.getFlexLines().get(i);
-                                numInTopthree += flexLine.getItemCount();
-                            }
+                    //隐藏
+                    int numInTopthree = 0;
+                    for (int i = 0; i < 1; i++) {
+                        if (mFlex_layout.getFlexLines().size() > 1) {
+                            FlexLine flexLine = mFlex_layout.getFlexLines().get(i);
+                            numInTopthree += flexLine.getItemCount();
                         }
+                    }
                     mFlex_layout.removeViews(numInTopthree, mFlex_layout.getChildCount() - numInTopthree);
 
                 }
             }
         });
+
+//        for (int i = 0; i <20 ; i++) {
+//            String s = new String();
+//            picData.add(s);
+//        }
+
+
+        mPicAdapter = new PicAdapter(this, images);
+        rv_pic_list.setAdapter(mPicAdapter);
+        rv_pic_list.setLayoutManager(new GridLayoutManager(this, 2));
     }
 
 
@@ -184,7 +199,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
             @Override
             public void run() {
                 //大于两行处理
-                if (flex_layout.getFlexLines().size() >1) {
+                if (flex_layout.getFlexLines().size() > 1) {
                     if (flag) {
                         //隐藏
                         int numInTopthree = 0;
@@ -272,7 +287,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         typeSelectPopup.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
             public void onDismiss() {
-                // 关闭popup窗口
+                // `  关闭popup窗口
                 typeSelectPopup.dismiss();
             }
         });
