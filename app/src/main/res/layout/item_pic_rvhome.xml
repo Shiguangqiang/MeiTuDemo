@@ -9,16 +9,90 @@
 
     <ImageView
         android:id="@+id/iv_infopic"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="150dp"
+        android:layout_height="220dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:src="@mipmap/ic_launcher"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/like_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintLeft_toLeftOf="@id/iv_infopic"
+        app:layout_constraintTop_toBottomOf="@id/iv_infopic"
+        app:srcCompat="@mipmap/like" />
 
+    <TextView
+        android:id="@+id/like_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="5.3k"
+        app:layout_constraintLeft_toLeftOf="@id/like_iv"
+        app:layout_constraintTop_toBottomOf="@id/iv_infopic" />
+
+    <ImageView
+        android:id="@+id/unlike_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="28dp"
+        app:layout_constraintLeft_toLeftOf="@id/like_tv"
+        app:layout_constraintTop_toBottomOf="@id/iv_infopic"
+        app:srcCompat="@mipmap/unlike" />
+
+    <TextView
+        android:id="@+id/unlike_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="2.4k"
+        app:layout_constraintLeft_toLeftOf="@id/unlike_iv"
+        app:layout_constraintTop_toBottomOf="@id/iv_infopic" />
+
+    <ImageView
+        android:id="@+id/heart_iv"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="28dp"
+        app:layout_constraintLeft_toLeftOf="@id/unlike_tv"
+        app:layout_constraintTop_toBottomOf="@id/iv_infopic"
+        app:srcCompat="@mipmap/heart" />
+
+    <TextView
+        android:id="@+id/heart_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
+        android:text="1.3k"
+        app:layout_constraintLeft_toLeftOf="@id/heart_iv"
+        app:layout_constraintTop_toBottomOf="@id/iv_infopic" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/color_1"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@id/iv_infopic"
+        app:layout_constraintRight_toRightOf="@id/iv_infopic">
+
+        <ImageView
+            android:id="@+id/pic_count_iv"
+            android:layout_width="26dp"
+            android:layout_height="23dp"
+            app:srcCompat="@mipmap/image" />
+
+        <TextView
+            android:id="@+id/pic_count_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="9" />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -11,6 +11,7 @@
     <color name="color_ebebeb">#EBEBEB</color>
     <!-- 浅灰色  用于背景，10dp分割线 -->
     <color name="color_1">#f3f4f5</color>
+    <color name="color_gray">#707070</color>
 
 
 </resources>
