@@ -43,6 +43,7 @@ public class PicAdapter extends RecyclerView.Adapter<PicAdapter.VH> {
     public void onBindViewHolder(@NonNull final VH vh, final int i) {
 //        vh.tv_info.setText(infoBeanList.get(i).getTv_info());
         Glide.with(mContext).load(images.get(i)).centerCrop().placeholder(R.mipmap.ic_launcher).into(vh.iv_infopic);
+
         vh.cl_content.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
