@@ -1,16 +1,22 @@
 package com.opera.meitu.mvp.main;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.github.ielse.imagewatcher.ImageWatcher;
+import com.github.ielse.imagewatcher.ImageWatcherHelper;
 import com.google.android.flexbox.FlexLine;
 import com.google.android.flexbox.FlexboxLayout;
 import com.opera.meitu.R;
@@ -32,6 +40,10 @@ import com.opera.meitu.base.MvpBaseActivity;
 import com.opera.meitu.bean.InfoBean;
 import com.opera.meitu.mvp.imagewatcher.ImageWatcherActivity;
 import com.opera.meitu.utils.GlideImageLoader;
+import com.opera.meitu.utils.GlideSimpleLoader;
+import com.opera.meitu.utils.Utils;
+import com.opera.meitu.widget.CustomLoadingUIProvider2;
+import com.opera.meitu.widget.DecorationLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.listener.OnBannerListener;
@@ -65,6 +77,11 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
     private ToggleButton mToggle_btn;
     private ImageView mIv_head;
 
+    private ImageWatcherHelper iwHelper;
+    private DecorationLayout layDecoration;
+    private final SparseArray<ImageView> mVisiblePictureList = new SparseArray<>();
+    private List<Uri> mDataList;
+
     @Override
     protected MainPresenter initPresenter() {
         return new MainPresenter(this, this);
@@ -91,6 +108,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         rv_pic_list = findViewById(R.id.pic_rv);
         mIv_head = findViewById(R.id.iv_head);
         initBanner();
+        initIwHelper();
 
     }
 
@@ -153,17 +171,13 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
             }
         });
 
-//        for (int i = 0; i <20 ; i++) {
-//            String s = new String();
-//            picData.add(s);
-//        }
-
-
         mPicAdapter = new PicAdapter(this, images);
         rv_pic_list.setAdapter(mPicAdapter);
         rv_pic_list.setLayoutManager(new GridLayoutManager(this, 2));
-    }
 
+
+
+    }
 
     @Override
     protected void initToolBar() {
@@ -182,6 +196,14 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
                 } else {
                     handleLines(mFlex_layout, true);
                 }
+            }
+        });
+        mPicAdapter.setOnItemClickListener(new PicAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+//                iwHelper.show(v, imageGroupList, urlList);
+
+                fitsSystemWindow(MainActivity.this, layDecoration);
             }
         });
     }
@@ -243,6 +265,53 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
     }
 
+    private void initIwHelper() {
+
+        boolean isTranslucentStatus = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(Color.TRANSPARENT);
+            window.setNavigationBarColor(Color.TRANSPARENT);
+            isTranslucentStatus = true;
+        }
+        layDecoration = new DecorationLayout(this);
+
+        //  **************  动态 addView   **************
+        iwHelper = ImageWatcherHelper.with(this, new GlideSimpleLoader()) // 一般来讲， ImageWatcher 需要占据全屏的位置
+                .setTranslucentStatus(!isTranslucentStatus ? Utils.calcStatusBarHeight(this) : 0) // 如果不是透明状态栏，你需要给ImageWatcher标记 一个偏移值，以修正点击ImageView查看的启动动画的Y轴起点的不正确
+                .setErrorImageRes(R.mipmap.error_picture) // 配置error图标 如果不介意使用lib自带的图标，并不一定要调用这个API
+                .setOnPictureLongPressListener(new ImageWatcher.OnPictureLongPressListener() {
+                    @Override
+                    public void onPictureLongPress(ImageView v, Uri uri, int pos) {
+                        // 长按图片的回调，你可以显示一个框继续提供一些复制，发送等功能
+                        Toast.makeText(v.getContext().getApplicationContext(), "长按了第" + (pos + 1) + "张图片", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setOnStateChangedListener(new ImageWatcher.OnStateChangedListener() {
+                    @Override
+                    public void onStateChangeUpdate(ImageWatcher imageWatcher, ImageView clicked, int position, Uri uri, float animatedValue, int actionTag) {
+                        Log.e("IW", "onStateChangeUpdate [" + position + "][" + uri + "][" + animatedValue + "][" + actionTag + "]");
+                    }
+
+                    @Override
+                    public void onStateChanged(ImageWatcher imageWatcher, int position, Uri uri, int actionTag) {
+                        if (actionTag == ImageWatcher.STATE_ENTER_DISPLAYING) {
+                            Toast.makeText(getApplicationContext(), "点击了图片 [" + position + "]" + uri + "", Toast.LENGTH_SHORT).show();
+                        } else if (actionTag == ImageWatcher.STATE_EXIT_HIDING) {
+                            Toast.makeText(getApplicationContext(), "退出了查看大图", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .setOtherView(layDecoration)
+                .addOnPageChangeListener(layDecoration)
+                .setLoadingUIProvider(new CustomLoadingUIProvider2()); // 自定义LoadingUI
+
+
+        layDecoration.attachImageWatcher(iwHelper);
+    }
 
     @Override
     public void onClick(View v) {
@@ -306,6 +375,24 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         for (int i = 0; i < 10; i++) {
             String str = new String("数据" + i);
             testData.add(str);
+        }
+    }
+
+    private void fitsSystemWindow(Activity activity, View otherView) {
+        boolean adjustByRoot = false;
+        final View content = activity.findViewById(android.R.id.content);
+        if (content instanceof ViewGroup) {
+            final View root = ((ViewGroup) content).getChildAt(0);
+            if (root != null) {
+                boolean fitsSystemWindows = ViewCompat.getFitsSystemWindows(root);
+                if (fitsSystemWindows) {
+                    otherView.setPadding(root.getPaddingLeft(), root.getPaddingTop(), root.getPaddingRight(), root.getPaddingBottom());
+                    adjustByRoot = true;
+                }
+            }
+        }
+        if (!adjustByRoot) {
+            ViewCompat.requestApplyInsets(otherView);
         }
     }
 }
