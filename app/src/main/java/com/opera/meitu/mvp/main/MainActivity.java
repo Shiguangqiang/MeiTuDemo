@@ -2,13 +2,9 @@ package com.opera.meitu.mvp.main;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,7 +12,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -37,6 +32,7 @@ import com.opera.meitu.adapter.PicAdapter;
 import com.opera.meitu.adapter.RvAdapter;
 import com.opera.meitu.base.MvpBaseActivity;
 import com.opera.meitu.bean.InfoBean;
+import com.opera.meitu.mvp.ImageDetailActivity;
 import com.opera.meitu.utils.GlideImageLoader;
 import com.opera.meitu.utils.Utils;
 import com.youth.banner.Banner;
@@ -195,7 +191,7 @@ public class MainActivity extends MvpBaseActivity<MainPresenter> implements Main
         mPicAdapter.setOnItemClickListener(new PicAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-
+                startActivity(new Intent(MainActivity.this, ImageDetailActivity.class));
             }
         });
     }
