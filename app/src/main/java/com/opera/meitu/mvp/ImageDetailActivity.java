@@ -34,7 +34,7 @@ public class ImageDetailActivity extends AppCompatActivity {
 
     private void initBanner() {
         //设置banner样式
-        mBanner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        mBanner.setBannerStyle(BannerConfig.NUM_INDICATOR);
         //设置图片加载器
         mBanner.setImageLoader(new GlideImageLoader());
         //设置轮播样式
